@@ -1,0 +1,41 @@
+<%- include('partials/header') %>
+
+<h1>To Do List</h1>
+
+<form action="/dodaj" method="POST">
+    <input name="tytul" placeholder="Wpisz zadanie" required>
+    <button>Dodaj</button>
+</form>
+
+<p>
+    Ukończone: <%= ukonczone %> |
+    Nieukończone: <%= nieukonczone %>
+</p>
+
+<p>
+    <a href="/">Wszystkie</a>
+    <a href="/?filter=active">Aktywne</a>
+    <a href="/?filter=completed">Ukończone</a>
+</p>
+
+<ul>
+<% zadania.forEach(z => { %>
+
+    <li>
+        <%= z.ukonczone ? '✓ ' : '' %><%= z.tytul %>
+        <small>(<%= z.data %>)</small>
+
+        <form action="/ukoncz/<%= z.id %>" method="POST" style="display:inline">
+            <button><%= z.ukonczone ? 'Cofnij' : 'Ukończ' %></button>
+        </form>
+
+        <form action="/edytuj/<%= z.id %>" method="POST" style="display:inline">
+            <input name="tytul" value="<%= z.tytul %>" required>
+            <button>Edytuj</button>
+        </form>
+    </li>
+
+<% }) %>
+</ul>
+
+<%- include('partials/footer') %>
